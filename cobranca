@@ -1,0 +1,54 @@
+// Cartão de crédito
+
+$dados = array(
+			'customer' =>$customer,
+			'billingType' =>'CREDIT_CARD',
+			'dueDate' =>$data_vencimento,
+			'installmentCount' =>{qtd_parcelas_cartao},
+			'installmentValue' =>{valor_cartao},
+			'description' =>'COMPRA DE LIVROS',
+			'externalReference'=> $vusu_alu,
+			'creditCard' => array (
+				'holderName' => {nome_cartao},
+				'number' =>{numero_cartao},
+				'expiryMonth' =>{mes_cartao},
+				'expiryYear' =>{ano_cartao},
+				'ccv' =>{ccv}),
+			'creditCardHolderInfo'=>array(
+				'name'=> {nome_cartao},
+				'email'=> $vemail,
+				'cpfCnpj'=> $vcpf,
+				'postalCode'=> $vcep,
+				'addressNumber' => $vnumero_end,
+				'addressComplement' =>null,
+				'mobilePhone' => $vcel
+			));
+		
+		//VALIDAÇÕES DO ASAAS
+		$retorno = {asaas}->CartaoCriar($dados);
+		$result_parcela = {asaas}->BoletoListar($customer,{qtd_parcelas_cartao}); // FAZ COBRANÇA DO CARTÃO
+		$verif_invalid = json_decode(json_encode($retorno),true);
+		if(!empty($verif_invalid['status']))
+		{
+			$vconfirm = $verif_invalid['status'];
+		}
+		else
+		{
+			$vconfirm = '';
+		}
+			
+		if(!empty($customer) and $vconfirm =='CONFIRMED')
+		{
+			//TRANSAÇÃO FUNCIONOU
+		}
+		else
+		{
+			//DEU ERRADO NA TRANSAÇÃO!!!
+		}
+    
+    
+    
+    //BOLETO
+    
+    $result = {asaas}->BoletoCriar($customer,$data_vencimento,{valor_boleto},$vusu_alu,1,$descboleto); // CRIA O BOLETO 
+		$result_parcela = {asaas}->BoletoListar($customer,1); // CRIA O BOLETO 
