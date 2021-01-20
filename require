@@ -1,0 +1,9 @@
+//CHAMANDO A API COM O REQUERIMENTO
+$codcliente = 13;
+$apiKey = XXXXX;
+
+
+require $_SERVER['DOCUMENT_ROOT']."/asaas.php";
+$asaas = new asaas($codcliente,'T');
+$link = https://sandbox.asaas.com;
+$diretorio = $_SERVER['DOCUMENT_ROOT']."/doc/boletoasaas";
