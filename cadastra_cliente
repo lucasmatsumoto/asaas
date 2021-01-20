@@ -1,0 +1,29 @@
+$ch = curl_init();
+$cpf_usuario = {cpf};
+curl_setopt($ch, CURLOPT_URL, {link}."/api/v3/customers?cpfCnpj=$cpf_usuario");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	"access_token: ".{apiKey}
+));
+
+$response = curl_exec($ch);
+$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+$dados = json_decode($response);
+
+if($dados->totalCount == 0)
+{
+	$nomeencode = utf8_encode({nome});
+	$endencode = utf8_encode({endereco});
+	$retorno = {asaas}->ClienteNovo($nomeencode, {email}, {cpf} , {cep}, {celular}, $endencode, {numero}, {complemento},[vcodAluno]);
+
+
+	$customer = $retorno['id'];
+}
+else
+{
+	echo 'não foi possível cadastrar';
+}
